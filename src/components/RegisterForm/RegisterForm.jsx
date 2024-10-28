@@ -5,35 +5,48 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import * as yup from 'yup'
 
 const registerSchema = yup.object().shape({
-	name: yup.string().min(2).max(32).required(),
-	email: yup.string().email().required(),
-	password: yup.string().min(8).max(64).required(),
+	name: yup
+		.string()
+		.min(2, 'Name must be at least 2 characters')
+		.max(32, 'Name can be up to 32 characters')
+		.required('Name is required'),
+	email: yup
+		.string()
+		.email('Invalid email format')
+		.required('Email is required'),
+	password: yup
+		.string()
+		.min(8, 'Password must be at least 8 characters')
+		.max(64, 'Password can be up to 64 characters')
+		.required('Password is required'),
 })
 
 const RegisterForm = () => {
-	const { register, handleSubmit, errors } = useForm({
+	const {
+		register,
+		handleSubmit,
+		formState: { errors },
+	} = useForm({
 		resolver: yupResolver(registerSchema),
 	})
 
 	const [showPassword, setShowPassword] = useState(false)
 
 	const onSubmit = data => {
-		// Логика регистрации и автоматического логина - написать
 		console.log(data)
 	}
 
 	return (
 		<form onSubmit={handleSubmit(onSubmit)}>
-			<input name='name' ref={register} placeholder='Name' />
+			<input {...register('name')} placeholder='Name' />
 			{errors.name && <p>{errors.name.message}</p>}
 
-			<input name='email' ref={register} placeholder='Email' />
+			<input {...register('email')} placeholder='Email' />
 			{errors.email && <p>{errors.email.message}</p>}
 
 			<input
-				name='password'
+				{...register('password')}
 				type={showPassword ? 'text' : 'password'}
-				ref={register}
 				placeholder='Password'
 			/>
 			{errors.password && <p>{errors.password.message}</p>}

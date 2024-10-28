@@ -5,12 +5,12 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import * as yup from 'yup'
 
 const loginSchema = yup.object().shape({
-	email: yup.string().email().required(),
+	email: yup.string().email('Invalid email').required('Email is required'),
 	password: yup
 		.string()
 		.min(8, 'Too Short! Please type min 8 symbols')
 		.max(64, 'Too Long! Must be up max 64 symbols')
-		.required('Required'),
+		.required('Password is required'),
 })
 
 const LoginForm = () => {
@@ -25,17 +25,16 @@ const LoginForm = () => {
 	const [showPassword, setShowPassword] = useState(false)
 
 	const onSubmit = data => {
-		// написать логику авторизации
+		// Логика авторизации - написать
 		console.log(data)
 	}
 
 	return (
 		<form onSubmit={handleSubmit(onSubmit)}>
-			<input name='email' ref={register} placeholder='Email' />
+			<input {...register('email')} placeholder='Email' />
 			{errors.email && <p>{errors.email.message}</p>}
 
 			<input
-				name='password'
 				type={showPassword ? 'text' : 'password'}
 				{...register('password')}
 				placeholder='Password'
