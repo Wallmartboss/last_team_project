@@ -1,8 +1,8 @@
 {
   "name": "last_team_project",
   "version": "0.1.0",
-  "private": true,
   "homepage": "https://wallmartboss.github.io/last_team_project/",
+  "private": true,
   "dependencies": {
     "@hookform/resolvers": "^3.9.0",
     "@mui/material": "^6.1.5",
